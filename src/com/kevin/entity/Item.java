@@ -1,5 +1,9 @@
 package com.kevin.entity;
 
+/**
+ * @author Kevin Novantus (1772011)
+ *
+ */
 public class Item {
     private String name;
     private double price;

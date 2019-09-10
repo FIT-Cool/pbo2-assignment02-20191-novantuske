@@ -1,5 +1,9 @@
 package com.kevin.entity;
 
+/**
+ * @author Kevin Novantus (1772011)
+ *
+ */
 public class Category {
     private String catName;
 
