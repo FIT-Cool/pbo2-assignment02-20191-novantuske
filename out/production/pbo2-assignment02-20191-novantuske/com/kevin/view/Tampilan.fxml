@@ -68,7 +68,7 @@
                         <ChoiceBox fx:id="boxChoice" prefHeight="25.0" prefWidth="140.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <HBox alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="193.0" spacing="12.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#btnSave" text="Save" />
+                              <Button fx:id="btnSave" disable="false" mnemonicParsing="false" onAction="#btnSave" text="Save" />
                               <Button mnemonicParsing="false" onAction="#btnReset" text="Reset" />
                               <Button fx:id="btnUpdate" disable="true" mnemonicParsing="false" onAction="#btnUpdate" text="Update" />
                            </children>

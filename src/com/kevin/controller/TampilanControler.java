@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
@@ -22,6 +21,7 @@ import java.util.ResourceBundle;
 public class TampilanControler implements Initializable {
 
     public Button btnUpdate;
+    public Button btnSave;
     @FXML
     private TextField txtNama;
     @FXML
@@ -64,19 +64,36 @@ public class TampilanControler implements Initializable {
 
             alert.show();
         } else {
-            Item i;
-            i = new Item();
-            i.setName(txtNama.getText().trim());
-            i.setPrice(Double.parseDouble(txtPrice.getText().trim()));
+            int j = 0;
 
-            Category c = new Category();
-            c.setCatName(boxChoice.getSelectionModel().getSelectedItem().toString().trim());
-            i.setCategory(c);
+            for (Item c : items) {
+                if (txtNama.getText().equals(c.getName())) {
+                    j++;
+                }
+            }
 
-            items.add(i);
+            if (j >= 1) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setContentText("Duplicate Name");
 
-            txtNama.clear();
-            txtPrice.clear();
+                alert.show();
+
+            } else {
+                Item i;
+                i = new Item();
+                i.setName(txtNama.getText().trim());
+                i.setPrice(Double.parseDouble(txtPrice.getText().trim()));
+
+                Category c = new Category();
+                c.setCatName(boxChoice.getSelectionModel().getSelectedItem().toString().trim());
+                i.setCategory(c);
+
+                items.add(i);
+
+                txtNama.clear();
+                txtPrice.clear();
+            }
         }
 
     }
@@ -91,6 +108,8 @@ public class TampilanControler implements Initializable {
         txtPrice.clear();
         txtCatName.clear();
         boxChoice.getSelectionModel().clearSelection();
+        btnSave.setDisable(false);
+        btnUpdate.setDisable(true);
     }
 
     /**
@@ -109,6 +128,7 @@ public class TampilanControler implements Initializable {
             alert.show();
         }
         else {
+            int index = items.indexOf(tblData.getSelectionModel().getSelectedItem());
             items.remove(tblData.getSelectionModel().getSelectedItem());
 
             Item i = new Item();
@@ -119,10 +139,18 @@ public class TampilanControler implements Initializable {
             c.setCatName(boxChoice.getSelectionModel().getSelectedItem().toString().trim());
             i.setCategory(c);
 
-            items.add(tblData.getSelectionModel().getSelectedIndex(), i);
+            if(items.isEmpty()){
+                items.add(i);
+            }
+            else{
+                items.add(index, i);
+                tblData.getSelectionModel().select(i);
+            }
+
             txtNama.clear();
             txtPrice.clear();
             btnUpdate.setDisable(true);
+            btnSave.setDisable(false);
         }
     }
 
@@ -172,6 +200,10 @@ public class TampilanControler implements Initializable {
      */
     @FXML
     private void tableClicked(MouseEvent mouseEvent) {
+        btnSave.setDisable(true);
+        txtNama.setText(tblData.getSelectionModel().getSelectedItem().getName());
+        txtPrice.setText(String.valueOf(tblData.getSelectionModel().getSelectedItem().getPrice()));
+
         if (items.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
